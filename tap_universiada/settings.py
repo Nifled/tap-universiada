@@ -38,7 +38,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'tap_universiada.views'
+
+    # Local
     'tap_universiada.apps.comidas'
 ]
 
