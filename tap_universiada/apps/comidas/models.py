@@ -2,6 +2,7 @@ from django.db import models
 
 from .choices import *
 
+import uuid
 
 # ----------------------------------------------------------------------
 # **************************** Disciplina ******************************
@@ -24,15 +25,16 @@ class Equipo(models.Model):
 # *************************** Participante *****************************
 # ----------------------------------------------------------------------
 class Participante(models.Model):
+    uiid = models.UUIDField(default=uuid.uuid4(),editable=False, unique=True)
     nombres = models.CharField(max_length=85)
     apellido_p = models.CharField(max_length=45, verbose_name='Apellido Paterno')
     apellido_m = models.CharField(max_length=45, verbose_name='Apellido Materno')
-    estatus = models.BooleanField(default=True)  # True = en competencia, False = eliminado
+    estatus = models.BooleanField(default=True, editable=False)  # True = en competencia, False = eliminado
     institucion = models.CharField(max_length=85)
     tipo = models.IntegerField(choices=PARTICIPANTE_TIPOS)  # Choices en ./choices.py
 
     # `estatos` == False (eliminado) y `ultima_comida` == True, ya no puede comer nunca.
-    ultima_comida = models.BooleanField(default=False)
+    ultima_comida = models.BooleanField(default=False, editable=False)
 
     # Foreign Keys
     disciplina = models.ForeignKey(Disciplina, on_delete=models.CASCADE)  # TODO : change on_delete
