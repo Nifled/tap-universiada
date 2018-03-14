@@ -25,7 +25,7 @@ class Equipo(models.Model):
 # *************************** Participante *****************************
 # ----------------------------------------------------------------------
 class Participante(models.Model):
-    uiid = models.UUIDField(default=uuid.uuid4(),editable=False, unique=True)
+    uuid = models.UUIDField(blank=True, default=uuid.uuid4,editable=False, unique=True)
     nombres = models.CharField(max_length=85)
     apellido_p = models.CharField(max_length=45, verbose_name='Apellido Paterno')
     apellido_m = models.CharField(max_length=45, verbose_name='Apellido Materno')
