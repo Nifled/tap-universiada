@@ -26,7 +26,7 @@ SECRET_KEY = '-8q=s_+viy%k$$j$fgfpn*7dsvqhjobtvc&$yqrm$52$t(xsip'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["*"]
 
 
 # Application definition
@@ -54,6 +54,8 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'tap_universiada.urls'
+
+CSRF_COOKIE_DOMAIN = None
 
 TEMPLATES = [
     {
