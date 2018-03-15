@@ -41,8 +41,8 @@ class Participante(models.Model):
     equipo = models.ForeignKey(Equipo, blank=True, null=True, on_delete=models.SET_NULL)  # propiedad opcional
 
     def __str__(self):
-        return '{} - {}, Estatus: {}'\
-            .format(self.apellido_p, self.disciplina.nombre, self.estatus)
+        return '{} - {}, Estatus: {} {}'\
+            .format(self.apellido_p, self.disciplina.nombre, self.estatus, self.get_tipo_display())
 
 
 # ----------------------------------------------------------------------

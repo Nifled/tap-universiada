@@ -42,12 +42,13 @@
               <br/>
               <h1 class="mb-3">Buscar</h1>
              <br />
-              <div class="input-group input-group-newsletter">
-                <input type="email" class="form-control" placeholder="Código de barras..." aria-label="Código de barras..." aria-describedby="basic-addon">
-                <div class="input-group-append">
-                  <button class="btn btn-secondary" type="button">Revisar</button>
+              <form action="" method="POST" class="input-group input-group-newsletter">
+                {% csrf_token %}
+                <input name="nombre" type="text" class="form-control" placeholder="Código de barras..." aria-label="Código de barras..." aria-describedby="basic-addon">
+                <div class="input-group-append" >
+                  <button class="btn btn-secondary" type="submit">Revisar</button>
                 </div>
-              </div>
+              </form>
             </div>
           </div>
         </div>
@@ -66,9 +67,32 @@
     <script src="js/coming-soon.min.js"></script>
 <br />
 <br />
-<h4 style="text-align:center;">"STAFF"</h4>
+
+
+{% if participante %}
+
+<h4 style="text-align:center;">"{{ participante.get_tipo_display }}"</h4>
 <br />
-<h4 style="text-align:center;">"Alan Alberto Lerma Molina"</h4>
+<h4 style="text-align:center;">{{ participante.nombres }}</h4>
+<br />
+<h4 style="text-align:center;">Desayuno</h4>
+<br/>
+<br/>
+
+
+<div class="container">
+  <div class="row">
+    <div class="col-sm">
+     
+    </div>
+    <div class="col-sm">
+      <div class="alert alert-success" role="alert"> <!-- "alert alert-success" = verde :D-->
+ <h4 style="text-align:center;">Aprobado</h4>
+</div>
+{% else %}
+<h4 style="text-align:center;">{{ participante.get_tipo_display }}</h4>
+<br />
+<h4 style="text-align:center;">{{ participante.nombres }}</h4>
 <br />
 <h4 style="text-align:center;">Desayuno</h4>
 <br/>
@@ -84,6 +108,12 @@
       <div class="alert alert-danger" role="alert"> <!-- "alert alert-success" = verde :D-->
  <h4 style="text-align:center;">Denegado</h4>
 </div>
+{% else  %}
+
+
+{% endif %}
+
+
     </div>
     <div class="col-sm">
      
