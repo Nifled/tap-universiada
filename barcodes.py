@@ -2,7 +2,12 @@
 
 import barcode
 from barcode.writer import ImageWriter
+from imgurpython import ImgurClient
 
+client_id = 'e7ac6ee4153e3ab'
+client_secret = '2fe03c77f8b37592ec2afe128d803aeaeda2c902'
+
+Imgur = ImgurClient(client_id, client_secret)
 
 def generate_barcode_list(size):
     """Generar lista de barcodes (strings) de tamaño `size`."""
@@ -32,6 +37,9 @@ def generate_png(n):
         filename = 'barcode_' + b_code.get_fullcode()
         b_code.default_writer_options['quiet_zone'] = 1.0
         b_code.save(filename)
+        
+        imgur_link = Imgur.upload_from_path(filename + '.png', anon=True)['link']
+        print(imgur_link)
 
 
 if __name__ == "__main__":
@@ -39,4 +47,4 @@ if __name__ == "__main__":
     # `docker-compose -f compose-local.yml run web python barcodes.py`
     b_list = generate_barcode_list(3)
     print(b_list)
-    generate_png(3)
+    generate_png(1)
