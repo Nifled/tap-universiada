@@ -35,7 +35,7 @@ def codigos(request):
     print (comidaActual())
     if request.POST:
         try:
-            participante = Participante.objects.get(nombres=request.POST.get("nombre", ""))
+            participante = Participante.objects.get(barcode=request.POST.get("nombre", ""))
             
             return render(request, 'codigos.html', {
             'participante': participante,
