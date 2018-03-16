@@ -84,6 +84,10 @@ def codigos(request):
                 })
 
         else:  # Si no es el mismo dia pues puede comer (por ahorita)
+
+            # Create Comida object
+            Comida.objects.create(participante=participante, tipo=current_hour_range)
+            
             return render(request, 'codigos.html', {
                 'participante': participante,
                 'aprobado': True
