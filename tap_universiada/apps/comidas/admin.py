@@ -3,7 +3,7 @@ from django.shortcuts import render
 from django.core import serializers
 from django.contrib.auth.models import User
 from django.contrib.auth.models import Group
-
+from django.contrib import messages
 from .models import Disciplina, Equipo, Participante, Comida
 
 
@@ -27,12 +27,16 @@ def activar(modeladmin, request, queryset):
 def imprimir(modeladmin, request, queryset):
 
     disciplinas = Disciplina.objects.all()
-
-  
-    return render(request, 'admin/canvas.html', {
+    if (len(queryset)) > 4:
+      messages.error(request,"Favor de seleccionar máximo 4 personas")
+    else:
+      return render(request, 'admin/canvas.html', {
         'queryset': serializers.serialize('json', queryset),
         'disciplinas': serializers.serialize('json', disciplinas)
-    })
+        
+      })
+  
+    
 
 
 class ParticipanteAdmin(admin.ModelAdmin):
