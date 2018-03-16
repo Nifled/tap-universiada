@@ -1,12 +1,10 @@
+import uuid
 from django.db import models
+from random import randint
 
 from .choices import *
-
-import uuid
-
 from . import barcodes
 
-from random import randint
 
 # ----------------------------------------------------------------------
 # **************************** Disciplina ******************************
@@ -29,7 +27,7 @@ class Equipo(models.Model):
 # *************************** Participante *****************************
 # ----------------------------------------------------------------------
 class Participante(models.Model):
-    uuid = models.UUIDField(blank=True, default=uuid.uuid4,editable=False, unique=True)
+    uuid = models.UUIDField(blank=True, default=uuid.uuid4, editable=False, unique=True)
     barcode = models.CharField(max_length=13, blank=True, editable=False, unique=True)
     barcode_link = models.CharField(max_length=35, blank=True, editable=False, unique=True)
     nombres = models.CharField(max_length=85)
@@ -43,7 +41,7 @@ class Participante(models.Model):
     ultima_comida = models.BooleanField(default=False, editable=False)
 
     # Foreign Keys
-    disciplina = models.ForeignKey(Disciplina, on_delete=models.CASCADE)  # TODO : change on_delete
+    disciplina = models.ForeignKey(Disciplina, null=True, on_delete=models.SET_NULL)
     equipo = models.ForeignKey(Equipo, blank=True, null=True, on_delete=models.SET_NULL)  # propiedad opcional
 
     def __str__(self):
@@ -51,10 +49,11 @@ class Participante(models.Model):
             .format(self.apellido_p, self.disciplina.nombre, self.estatus, self.get_tipo_display())
 
     def save(self, *args, **kwargs):
-        barcode_str, barcode_link = barcodes.generate_one(str(randint(100000000000,999999999999)))
+        barcode_str, barcode_link = barcodes.generate_one(str(randint(100000000000, 999999999999)))
         self.barcode = barcode_str
         self.barcode_link = barcode_link
         super(Participante, self).save(*args, **kwargs)
+
 
 # ----------------------------------------------------------------------
 # ****************************** Comida ********************************

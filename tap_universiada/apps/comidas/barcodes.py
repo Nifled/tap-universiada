@@ -10,6 +10,7 @@ client_secret = '2fe03c77f8b37592ec2afe128d803aeaeda2c902'
 
 Imgur = ImgurClient(client_id, client_secret)
 
+
 def generate_one(seed):
     """Funcion para generar barcode al crear un participante. Regresa el barcode (string) y link de imgur."""
     b_code = barcode.get('ean', seed, writer=ImageWriter())
@@ -21,11 +22,12 @@ def generate_one(seed):
     b_code.save(filename)
 
     # upload to imgur
-    path_to_file = settings.BASE_DIR + '\\' + filename + '.png'
+    path_to_file = '{}/{}.png'.format(settings.BASE_DIR, filename)
     imgur_link = Imgur.upload_from_path(path_to_file, anon=True)['link']
     print(imgur_link)
 
     return b_code_str, imgur_link
+
 
 def generate_barcode_list(size):
     """Generar lista de barcodes (strings) de tamaño `size`."""
