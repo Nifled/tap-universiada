@@ -25,22 +25,6 @@
 
         const participantes = __particpantes.map(participante => participante.fields)
         const disciplinas = __disciplinas.map(disciplina => disciplina.fields)
-        // var canvas = document.getElementById("myCanvas")
-        // var ctx = canvas.getContext("2d")
-        // var img = new Image();
-        // img.src = "./PRUEBA.png";
-
-        // img.onload = function () {
-        //     ctx.drawImage(img, 0, 0)
-        //     ctx.moveTo(1528+384,897+74)
-        //     ctx.strokeStyle = "red"
-        //     ctx.moveTo(1528+384,987)
-        //     ctx.lineTo(1528+384,987+100)
-        //     ctx.stroke()
-        //     ctx.font = "40px Roboto"
-        //     ctx.textAlign = "center"
-        //     ctx.fillText("ADAN HUMBERTO SERNA MEDINA", 1528+384,897+74)
-        // }
 
         var canvas = document.getElementById("myCanvas")
         var ctx = canvas.getContext("2d")
@@ -49,11 +33,11 @@
             x1: 612,
             y1: 1055,
             x2: 612,
-            y2:1119,
-            x3:612,
-            y3:1183,
-            x4:448,
-            y4:1215
+            y2: 1119,
+            x3: 612,
+            y3: 1183,
+            x4: 448,
+            y4: 1215
         }
 
         participantes.forEach((participante, iteracion) => {
@@ -71,104 +55,24 @@
                 yModifier+=1697
             }
 
-            ctx.font = "40px Roboto"
-            ctx.textAlign = "center"
-            ctx.fillText(`${participante.nombres} ${participante.apellido_p} ${participante.apellido_m}`,
-                positions[`x1`] + xModifier, positions[`y1`] + yModifier
-            )
-            ctx.fillText(disciplinas[participante.disciplina -1 ].nombre,
-                positions[`x2`] + xModifier, positions[`y2`] + yModifier
-            )
-            ctx.fillText(participante.institucion,
-                positions[`x3`] + xModifier, positions[`y3`] + yModifier
-            )
-            //aqui va el codigo de barra
-            //ctx.fillText(disciplinas[participante.disciplina],
-            //    positions[`x4`], positions[`y4`]
-            //)
+            const imagen = new Image()
+            imagen.src = participante.barcode_link
+            imagen.onload = () => {
+                ctx.font = "40px Roboto"
+                ctx.textAlign = "center"
+                ctx.fillText(`${participante.nombres} ${participante.apellido_p} ${participante.apellido_m}`,
+                    positions[`x1`] + xModifier, positions[`y1`] + yModifier
+                )
+                ctx.fillText(disciplinas[participante.disciplina -1 ].nombre,
+                    positions[`x2`] + xModifier, positions[`y2`] + yModifier
+                )
+                ctx.fillText(participante.institucion,
+                    positions[`x3`] + xModifier, positions[`y3`] + yModifier
+                )
+    
+                ctx.drawImage(imagen, positions[`x4`] + xModifier, positions[`y4`] + yModifier)
+            }
         })
-        {#var img = new Image();#}
-        {#img.src = "./PRUEBA2.png";#}
-        {#function loadImage(src, onload) {#}
-        {#    var img = new Image();#}
-        {#    img.onload = onload#}
-        {#    img.src = src#}
-
-        {##}
-        {#img.onload = function () {#}
-        {#    ctx.drawImage(img, 0, 0)#}
-        {#    ctx.moveTo(1528+384,897+64)#}
-        {##}
-        {#    ctx.stroke()#}
-        {#    ctx.font = "40px Roboto"#}
-        {#    ctx.textAlign = "center"#}
-        {#    ctx.fillText("ADAN HUMBERTO SERNA MEDINA1", 260+384-64+32,897+74+84)#}
-        {##}
-        {#    ctx.font = "40px Roboto"#}
-        {#    ctx.textAlign = "center"#}
-        {#    ctx.fillText("BASKETBALL", 260+384-64+32,897+74+64+84)#}
-        {##}
-        {#    ctx.font = "40px Roboto"#}
-        {#    ctx.textAlign = "center"#}
-        {#    ctx.fillText("UNIVERSIDAD DE SONORA", 260+384-64+32,897+74+64+64+84)#}
-        {##}
-        {#    barras11 = new Image()#}
-        {#    barras11.src = "https://scontent.fhmo1-1.fna.fbcdn.net/v/t34.0-12/28907102_1931482606873875_185850651_n.png?oh=f28d3bbda29d29c11260132accf6d75f&oe=5AAAEBB2"#}
-        {#    ctx.drawImage(barras11, 260+156+32, 897+74+64+64+32+84)#}
-        {##}
-        {##}
-        {#    ctx.font = "40px Roboto"#}
-        {#    ctx.textAlign = "center"#}
-        {#    ctx.fillText("ADAN HUMBERTO SERNA MEDINA2", 1528+384+64-32-16,897+74+94)#}
-        {##}
-        {#    ctx.font = "40px Roboto"#}
-        {#    ctx.textAlign = "center"#}
-        {#    ctx.fillText("BASKETBALL", 1528+384+64-32-16,897+74+64+94)#}
-        {##}
-        {#    ctx.font = "40px Roboto"#}
-        {#    ctx.textAlign = "center"#}
-        {#    ctx.fillText("UNIVERSIDAD DE SONORA", 1528+384+64-32-16,897+74+64+64+94)#}
-        {##}
-        {#    barras12 = new Image()#}
-        {#    barras12.src = "https://scontent.fhmo1-1.fna.fbcdn.net/v/t34.0-12/28907102_1931482606873875_185850651_n.png?oh=f28d3bbda29d29c11260132accf6d75f&oe=5AAAEBB2"#}
-        {#    ctx.drawImage(barras12, 1528+180+64-32-16, 897+74+64+64+32+94)#}
-        {##}
-        {##}
-        {##}
-        {#    ctx.font = "40px Roboto"#}
-        {#    ctx.textAlign = "center"#}
-        {#    ctx.fillText("ADAN HUMBERTO SERNA MEDINA3", 260+384-64+32,2544+74+264-120)#}
-        {##}
-        {#    ctx.font = "40px Roboto"#}
-        {#    ctx.textAlign = "center"#}
-        {#    ctx.fillText("BASKETBALL", 260+384-64+32,2544+74+64+264-120)#}
-        {##}
-        {#    ctx.font = "40px Roboto"#}
-        {#    ctx.textAlign = "center"#}
-        {#    ctx.fillText("UNIVERSIDAD DE SONORA", 260+384-64+32,2544+74+64+64+264-120)#}
-        {##}
-        {#    barras21 = new Image()#}
-        {#    barras21.src = "https://scontent.fhmo1-1.fna.fbcdn.net/v/t34.0-12/28907102_1931482606873875_185850651_n.png?oh=f28d3bbda29d29c11260132accf6d75f&oe=5AAAEBB2"#}
-        {#    ctx.drawImage(barras21, 260+180-64+32, 1650+897+74+64+64+32+264-120)#}
-        {##}
-        {##}
-        {##}
-        {#    ctx.font = "40px Roboto"#}
-        {#    ctx.textAlign = "center"#}
-        {#    ctx.fillText("ADAN HUMBERTO SERNA MEDINA4", 1528+384+64-32-16,2544+74+264-120)#}
-        {##}
-        {#    ctx.font = "40px Roboto"#}
-        {#    ctx.textAlign = "center"#}
-        {#    ctx.fillText("BASKETBALL", 1528+384+64-32-16,2544+74+64+264-120)#}
-        {##}
-        {#    ctx.font = "40px Roboto"#}
-        {#    ctx.textAlign = "center"#}
-        {#    ctx.fillText("UNIVERSIDAD DE SONORA", 1528+384+64-32-16,2544+74+64+64+264-120)#}
-        {##}
-        {#    barras22 = new Image()#}
-        {#    barras22.src = "https://scontent.fhmo1-1.fna.fbcdn.net/v/t34.0-12/28907102_1931482606873875_185850651_n.png?oh=f28d3bbda29d29c11260132accf6d75f&oe=5AAAEBB2"#}
-        {#    ctx.drawImage(barras22, 1528+180+64-32-16, 1650+897+74+64+64+32+264-120)#}
-
     })()
 </script>
 </html>
