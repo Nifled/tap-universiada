@@ -1,50 +1,95 @@
+from datetime import datetime
 from django.shortcuts import render
 from django.core.exceptions import ObjectDoesNotExist
-from datetime import datetime, date, time, timedelta
-import calendar
 
 from tap_universiada.apps.comidas.models import Participante, Comida
 
-def comidaActual():
-	ahora = datetime.now()  # Obtiene fecha y hora actual
-  	
-	horaactual = ahora.hour
-    #desayno 7 a 10
-    #comida 1 a 4
-    #cena 8 a 11
-	if horaactual == 7 or horaactual == 8 or horaactual == 9 or horaactual == 10:
-		print ("desayuno")
-		return 0
 
-	elif horaactual == 13 or horaactual == 14 or horaactual == 15 or horaactual == 16:
-  		print ("Es comida")
-  		return 1
+def cual_rango_comida(datetime_obj):
+    """
+    Recibe una hora, devuelve
+    1 si es en desayuno,
+    2 si es comida,
+    3 si es cena,
+    0 si no esta en ningun rango
+    """
+    desayuno = [14, 15, 16]  # desayuno 7 a 10AM en UTC
+    comida = [20, 21, 22]  # comida 1 a 4PM en UTC
+    cena = [3, 4, 5]  # cena 8 a 11PM en UTC
 
-	elif horaactual == 20 or horaactual == 21 or horaactual == 22 or horaactual == 23:
- 		print ("Es cena")
- 		return 2
+    hora_actual = datetime_obj.hour
 
-	else :
-		print ("no esta en el rango")
-	return 3
+    if hora_actual in desayuno:
+        print("desayuno")
+        return 1
 
+    elif hora_actual in comida:
+        print("Es comida")
+        return 2
 
+    elif hora_actual in cena:
+        print("Es cena")
+        return 3
+
+    else:
+        print("no esta en el rango")
+    return 0
 
 
 def codigos(request):
-    print (comidaActual())
+
     if request.POST:
         try:
             participante = Participante.objects.get(nombres=request.POST.get("nombre", ""))
-            
-            return render(request, 'codigos.html', {
-            'participante': participante,
-            'aprobado': True
-            })
+
         except ObjectDoesNotExist:
             return render(request, 'codigos.html', {
                 'mensaje': "No existe"
             })
+
+        ahora = datetime.now()  # Obtiene fecha y hora actual
+
+        # Get current time & range
+        current_hour_range = cual_rango_comida(ahora)  # 1=desayuno, 2=comida, 3=cena
+
+        if current_hour_range == 0:  # No estamos al rango para comer ahorita!
+            return render(request, 'codigos.html', {
+                'participante': participante,
+                'aprobado': False
+            })
+
+        # Check if user has already eaten in time range
+        # Filter database for Comida object
+
+        # Get most recent Comida obj
+        last_comida = Comida.objects.filter(participante=participante).order_by('-hora')[0]
+
+        # Checar si la ultima comida que comio el vato fue hoy
+        if last_comida.hora.month == ahora.month and last_comida.hora.day == ahora.day:
+
+            if cual_rango_comida(last_comida.hora) == current_hour_range:
+                # Si esto es verdadero, el vato ya desayuno y quiere volver a desayunar el hdp
+                return render(request, 'codigos.html', {
+                    'participante': participante,
+                    'aprobado': False
+                })
+
+            else:  # El vato no ha comido la comida de este rango todavia
+
+                # Create Comida object
+                Comida.objects.create(participante=participante, tipo=current_hour_range)
+                return render(request, 'codigos.html', {
+                    'participante': participante,
+                    'aprobado': True
+                })
+
+        else:  # Si no es el mismo dia pues puede comer (por ahorita)
+            return render(request, 'codigos.html', {
+                'participante': participante,
+                'aprobado': True
+            })
+
+        # TODO : Falta hacer las validaciones para lo de la ultima comida
 
     else:
         return render(request, 'codigos.html')
