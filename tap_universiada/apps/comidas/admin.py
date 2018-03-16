@@ -1,6 +1,8 @@
 from django.contrib import admin
 from django.shortcuts import render
 from django.core import serializers
+from django.contrib.auth.models import User
+from django.contrib.auth.models import Group
 
 from .models import Disciplina, Equipo, Participante, Comida
 
@@ -38,10 +40,13 @@ class ParticipanteAdmin(admin.ModelAdmin):
   search_fields = ('nombres', 'apellido_p','apellido_m', 'institucion', 'tipo', 'disciplina__nombre')
   actions = [ desactivar, activar, imprimir ]
 
-  
 
 admin.site.register(Disciplina)
 admin.site.register(Equipo)
 admin.site.register(Participante, ParticipanteAdmin)
 admin.site.register(Comida)
 
+# Authentication & Authorization admin section
+# Disable
+admin.site.unregister(User)
+admin.site.unregister(Group)
