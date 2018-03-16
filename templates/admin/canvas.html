@@ -57,18 +57,18 @@
 
             const imagen = new Image()
             imagen.src = participante.barcode_link
+            ctx.font = "40px Arial"
+            ctx.textAlign = "center"
+            ctx.fillText(`${participante.nombres} ${participante.apellido_p} ${participante.apellido_m}`,
+                positions[`x1`] + xModifier, positions[`y1`] + yModifier
+            )
+            ctx.fillText(disciplinas[participante.disciplina -1 ].nombre,
+                positions[`x2`] + xModifier, positions[`y2`] + yModifier
+            )
+            ctx.fillText(participante.institucion,
+                positions[`x3`] + xModifier, positions[`y3`] + yModifier
+            )
             imagen.onload = () => {
-                ctx.font = "40px Roboto"
-                ctx.textAlign = "center"
-                ctx.fillText(`${participante.nombres} ${participante.apellido_p} ${participante.apellido_m}`,
-                    positions[`x1`] + xModifier, positions[`y1`] + yModifier
-                )
-                ctx.fillText(disciplinas[participante.disciplina -1 ].nombre,
-                    positions[`x2`] + xModifier, positions[`y2`] + yModifier
-                )
-                ctx.fillText(participante.institucion,
-                    positions[`x3`] + xModifier, positions[`y3`] + yModifier
-                )
     
                 ctx.drawImage(imagen, positions[`x4`] + xModifier, positions[`y4`] + yModifier)
             }
