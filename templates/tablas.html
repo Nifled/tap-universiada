@@ -1,0 +1,139 @@
+
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    <title>Universiada</title>
+  </head>
+  <body>
+
+</br>
+</br>
+
+<div class="container">
+  <div class="row">
+    
+    <div class="col-sm">
+      
+      <table class="table">
+  <thead>
+      
+    <tr>
+        
+
+
+        <h2> Reporte:<p>
+        </h2>
+</br></br>
+      <th scope="col">Participante</th>
+      <th scope="col">Desayuno</th>
+      <th scope="col">Comida</th>
+      <th scope="col">Cenas</th>
+         <th scope="col">Total</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for comida_por_participante in comidas %}
+    <tr>
+      <th scope="col">
+        {% if forloop.counter == 1 %}
+          Deportista
+        {% endif %}
+        {% if forloop.counter == 2 %}
+          Entrenador
+        {% endif %}
+        {% if forloop.counter == 3 %}
+          Juez
+        {% endif %}
+        {% if forloop.counter == 4 %}
+          Delegado
+        {% endif %}
+        {% if forloop.counter == 5 %}
+          Coordinador
+        {% endif %}
+        {% if forloop.counter == 6 %}
+          Comisionado Técnico
+        {% endif %}
+        {% if forloop.counter == 7 %}
+          Médico
+        {% endif %}
+        {% if forloop.counter == 8 %}
+          Comité organizador
+        {% endif %}
+      </th>
+      {% for tipo_comida in comida_por_participante  %}
+        <td>{{ tipo_comida|length }}</td>
+      {% endfor %}
+      <td>
+        {% if forloop.counter == 1 %}
+          {{ total_deportista }}
+        {% endif %}
+        {% if forloop.counter == 2 %}
+          {{ total_entrenador }}
+        {% endif %}
+        {% if forloop.counter == 3 %}
+          {{ total_juez }}
+        {% endif %}
+        {% if forloop.counter == 4 %}
+          {{ total_delegado }}
+        {% endif %}
+        {% if forloop.counter == 5 %}
+          {{ total_coordinador}}
+        {% endif %}
+        {% if forloop.counter == 6 %}
+          {{ total_comisionado }}
+        {% endif %}
+        {% if forloop.counter == 7 %}
+          {{ total_medico }}
+        {% endif %}
+        {% if forloop.counter == 8 %}
+          {{ total_comite }}
+        {% endif %}
+      </td>
+    </tr>
+    {% endfor %}
+  <tr>
+      <th scope="row">Total:</th>
+      <td>{{ total_desayunos }}</td>
+      <td>{{ total_comidas }}</td>
+      <td>{{ total_cenas }}</td>
+      <td>{{total}} </td>
+    <td></td>
+    </tr>
+
+  </tbody>
+</table>
+
+    </div>
+    
+  </div>
+</div>
+
+    
+
+
+
+
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+ 
+
+
+
+
+</body>
+
+
+
+</html>
