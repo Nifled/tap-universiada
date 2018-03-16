@@ -1,0 +1,20 @@
+{# Template: your_app/templates/admin/base_site.html #}
+{% extends "admin/base_site.html" %}
+{% load static i18n %}
+
+{# Setup favicon #}
+{#{% block extrahead %}<link rel="shortcut icon" type="image/png" href="{{MEDIA_URL}}your_logo.png"/>{% endblock %}#}
+
+{# Setup browser tab label #}
+{% block title %}{{ title }} |  {% trans "Your title" %}{% endblock %}
+
+{# Setup branding #}
+{% block branding %}
+    <h1 id="site-name">
+        <a href="{% url 'admin:index' %}">
+            {# Your logo here #}
+            <img height="40px" width="100%" src="https://cdn.rawgit.com/Nifled/07231595ae03a619246b871c8a2c446f/raw/753ffc61e111dfba27574e7e3d944091ba2fbcd6/unison.svg" alt="Universiada 2018 logo">
+{#            <span>{% trans "Universiada Regional UNISON 2018" %}</span>#}
+        </a>
+    </h1>
+{% endblock %}
