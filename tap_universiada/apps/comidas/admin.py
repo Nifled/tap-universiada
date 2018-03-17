@@ -4,7 +4,7 @@ from django.core import serializers
 from django.contrib.auth.models import User
 from django.contrib.auth.models import Group
 from django.contrib import messages
-from .models import Disciplina, Equipo, Participante, Comida
+from .models import Disciplina, Participante, Comida
 
 
 def desactivar(modeladmin, request, queryset):
@@ -55,7 +55,6 @@ class ParticipanteAdmin(admin.ModelAdmin):
 
 
 admin.site.register(Disciplina)
-admin.site.register(Equipo)
 admin.site.register(Participante, ParticipanteAdmin)
 # admin.site.register(Comida, ComidaAdmin)
 admin.site.register(Comida)

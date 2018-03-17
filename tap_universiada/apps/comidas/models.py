@@ -17,13 +17,6 @@ class Disciplina(models.Model):
 
 
 # ----------------------------------------------------------------------
-# ****************************** Equipo ********************************
-# ----------------------------------------------------------------------
-class Equipo(models.Model):
-    pass
-
-
-# ----------------------------------------------------------------------
 # *************************** Participante *****************************
 # ----------------------------------------------------------------------
 class Participante(models.Model):
@@ -42,7 +35,6 @@ class Participante(models.Model):
 
     # Foreign Keys
     disciplina = models.ForeignKey(Disciplina, null=True, on_delete=models.SET_NULL)
-    equipo = models.ForeignKey(Equipo, blank=True, null=True, on_delete=models.SET_NULL)  # propiedad opcional
 
     def __str__(self):
         return '{} - {}, Estatus: {} {}'\
