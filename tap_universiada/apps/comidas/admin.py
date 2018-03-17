@@ -49,18 +49,18 @@ class ParticipanteAdmin(admin.ModelAdmin):
 
 
 # HIDE COMIDAS IN ADMIN
-# class ComidaAdmin(admin.ModelAdmin):
-#   def get_model_perms(self, request):
-#     """
-#     Return empty perms dict thus hiding the model from admin index.
-#     """
-#     return {}
+class ComidaAdmin(admin.ModelAdmin):
+  def get_model_perms(self, request):
+    """
+    Return empty perms dict thus hiding the model from admin index.
+    """
+    return {}
 
 
 admin.site.register(Disciplina)
 admin.site.register(Participante, ParticipanteAdmin)
-# admin.site.register(Comida, ComidaAdmin)
-admin.site.register(Comida)
+admin.site.register(Comida, ComidaAdmin)
+# admin.site.register(Comida)
 
 # Authentication & Authorization admin section
 # Disable
