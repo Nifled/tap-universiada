@@ -24,6 +24,10 @@
 
 <body>
 
+  <div style="padding: 2rem;">
+      <a href="/" style="font-size: 1.5rem; color: white;" class="btn btn-primary">Ir al Inicio</a>
+  </div>
+
   <div class="overlay"></div>
 
   <div class="masthead">
@@ -51,17 +55,16 @@
 
 
   <br />
-  <br /> {
+  <br /> { <!-- Super secret Easter egg -->
     
   {% if participante %}
 
-  <h4 style="text-align:center;">"{{ participante.get_tipo_display }}"</h4>
+
+  <h4 style="text-align:center;">{{ participante.nombres }} {{ participante.apellido_p }} {{ participante.apellido_m }}</h4>
   <br />
-  <h4 style="text-align:center;">{{ participante.nombres }}</h4>
+  <h4 style="text-align:center;">{{ participante.institucion }}</h4>
   <br />
-  <h4 style="text-align:center;">{{ participante.barcode_link }}</h4>
-  <br />
-  <h4 style="text-align:center;">Desayuno</h4>
+  <h4 style="text-align:center;">{{ participante.get_tipo_display }}</h4>
 
   <br/>
   <br/>
