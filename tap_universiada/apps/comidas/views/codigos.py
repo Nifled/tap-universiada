@@ -62,7 +62,20 @@ def codigos(request):
         # Filter database for Comida object
 
         # Get most recent Comida obj
-        last_comida = Comida.objects.filter(participante=participante).order_by('-hora')[0]
+        # last_comida = Comida.objects.filter(participante=participante).order_by('-hora')[0]
+        last_comida_queryset = Comida.objects.filter(participante=participante).order_by('-hora')
+
+        if not last_comida_queryset.exists():  # If no comida object exists
+
+            # Create Comida object
+            Comida.objects.create(participante=participante, tipo=current_hour_range)
+            return render(request, 'codigos.html', {
+                'participante': participante,
+                'aprobado': True
+            })
+
+        else:  # If object exists, get last Comida obj
+            last_comida = last_comida_queryset[0]
 
         # Checar si la ultima comida que comio el vato fue hoy
         if last_comida.hora.month == ahora.month and last_comida.hora.day == ahora.day:
