@@ -32,6 +32,7 @@ class Participante(models.Model):
 
     # `estatos` == False (eliminado) y `ultima_comida` == True, ya no puede comer nunca.
     ultima_comida = models.BooleanField(default=False, editable=False)
+    datetime_eliminacion = models.DateTimeField(editable=False, blank=True, null=True)
 
     # Foreign Keys
     disciplina = models.ForeignKey(Disciplina, null=True, on_delete=models.SET_NULL)

@@ -1,14 +1,17 @@
+from datetime import datetime
 from django.contrib import admin
 from django.shortcuts import render
 from django.core import serializers
 from django.contrib.auth.models import User
 from django.contrib.auth.models import Group
 from django.contrib import messages
+
 from .models import Disciplina, Participante, Comida
 
 
 def desactivar(modeladmin, request, queryset):
   queryset.update(estatus=False)
+  queryset.update(datetime_eliminacion=datetime.now())
   queryset.update(ultima_comida=True)
   desactivar.short_description = "Marca los participantes eliminados"
 
@@ -40,7 +43,7 @@ def imprimir(modeladmin, request, queryset):
 
 
 class ParticipanteAdmin(admin.ModelAdmin):
-  list_display = ('nombres', 'apellido_p','apellido_m', 'estatus', 'institucion', 'tipo', 'disciplina')
+  list_display = ('nombres', 'apellido_p','apellido_m', 'estatus', 'institucion', 'tipo', 'disciplina', 'ultima_comida')
   search_fields = ('nombres', 'apellido_p','apellido_m', 'institucion', 'tipo', 'disciplina__nombre')
   actions = [ desactivar, activar, imprimir ]
 

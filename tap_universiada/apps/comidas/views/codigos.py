@@ -58,36 +58,16 @@ def codigos(request):
                 'aprobado': False
             })
 
-        # Check if user has already eaten in time range
-        # Filter database for Comida object
+        if participante.estatus:  # Si el estatus del jugador es en competencia
 
-        # Get most recent Comida obj
-        # last_comida = Comida.objects.filter(participante=participante).order_by('-hora')[0]
-        last_comida_queryset = Comida.objects.filter(participante=participante).order_by('-hora')
+            # Check if user has already eaten in time range
+            # Filter database for Comida object
 
-        if not last_comida_queryset.exists():  # If no comida object exists
+            # Get most recent Comida obj
+            # last_comida = Comida.objects.filter(participante=participante).order_by('-hora')[0]
+            last_comida_queryset = Comida.objects.filter(participante=participante).order_by('-hora')
 
-            # Create Comida object
-            Comida.objects.create(participante=participante, tipo=current_hour_range)
-            return render(request, 'codigos.html', {
-                'participante': participante,
-                'aprobado': True
-            })
-
-        else:  # If object exists, get last Comida obj
-            last_comida = last_comida_queryset[0]
-
-        # Checar si la ultima comida que comio el vato fue hoy
-        if last_comida.hora.month == ahora.month and last_comida.hora.day == ahora.day:
-
-            if cual_rango_comida(last_comida.hora) == current_hour_range:
-                # Si esto es verdadero, el vato ya desayuno y quiere volver a desayunar el hdp
-                return render(request, 'codigos.html', {
-                    'participante': participante,
-                    'aprobado': False
-                })
-
-            else:  # El vato no ha comido la comida de este rango todavia
+            if not last_comida_queryset.exists():  # If no comida object exists
 
                 # Create Comida object
                 Comida.objects.create(participante=participante, tipo=current_hour_range)
@@ -96,17 +76,105 @@ def codigos(request):
                     'aprobado': True
                 })
 
-        else:  # Si no es el mismo dia pues puede comer (por ahorita)
+            else:  # If object exists, get last Comida obj
+                last_comida = last_comida_queryset[0]
 
-            # Create Comida object
-            Comida.objects.create(participante=participante, tipo=current_hour_range)
-            
-            return render(request, 'codigos.html', {
-                'participante': participante,
-                'aprobado': True
-            })
+            # Checar si la ultima comida que comio el vato fue hoy
+            if last_comida.hora.month == ahora.month and last_comida.hora.day == ahora.day:
 
-        # TODO : Falta hacer las validaciones para lo de la ultima comida
+                if cual_rango_comida(last_comida.hora) == current_hour_range:
+                    # Si esto es verdadero, el vato ya desayuno y quiere volver a desayunar el hdp
+                    return render(request, 'codigos.html', {
+                        'participante': participante,
+                        'aprobado': False
+                    })
+
+                else:  # El vato no ha comido la comida de este rango todavia
+
+                    # Create Comida object
+                    Comida.objects.create(participante=participante, tipo=current_hour_range)
+                    return render(request, 'codigos.html', {
+                        'participante': participante,
+                        'aprobado': True
+                    })
+
+            else:  # Si no es el mismo dia pues puede comer (por ahorita)
+
+                # Create Comida object
+                Comida.objects.create(participante=participante, tipo=current_hour_range)
+
+                return render(request, 'codigos.html', {
+                    'participante': participante,
+                    'aprobado': True
+                })
+
+        else:
+
+            # Si ya esta eliminado y ultima comida == False
+            if not participante.estatus and not participante.ultima_comida:
+                return render(request, 'codigos.html', {
+                    'participante': participante,
+                    'aprobado': False
+                })
+
+            # Check what day person was eliminated
+            elimination_datetime = participante.datetime_eliminacion
+            elimination_food_range = cual_rango_comida(elimination_datetime)  # rango de comida cuando fue eliminado
+
+            # Pide su comida el mismo dia que fue eliminado
+            if elimination_datetime.month == ahora.month and elimination_datetime.day == ahora.day:
+
+                # Si quiere pedir comida en el rango de comida justo despues de su eliminacion
+                if current_hour_range == elimination_food_range + 1:
+                    # Set ultima comida falso
+                    participante.ultima_comida = False
+                    participante.save()
+
+                    # Darle su ultima comida al hdp
+                    Comida.objects.create(participante=participante, tipo=current_hour_range)
+
+                    return render(request, 'codigos.html', {
+                        'participante': participante,
+                        'aprobado': True
+                    })
+
+                else:  # E.G. Fue eliminado en el desayuno y quiere pedir la cena del mismo dia, etc
+                    return render(request, 'codigos.html', {
+                        'participante': participante,
+                        'aprobado': False
+                    })
+
+            # Si pide comer al dia despues de su eliminacion (No tiene validado si el siguiente
+            # dia es el siguiente mes EG: March 31 - April 1)
+            elif elimination_datetime.month == ahora.month and ahora.day == elimination_datetime.day + 1:
+                # check if elimination hour range was dinner and ahora hour range is desayuno
+                # elimination_food_range - rango cuando fue eliminado
+                # current_hour_range  - rango de ahorita mismo
+
+                if elimination_food_range == 3 and current_hour_range == 1:  # Si era cena ayer cuando lo eliminaron y hoy es desayuno
+                    # Set ultima comida falso
+                    participante.ultima_comida = False
+                    participante.save()
+
+                    # Darle su ultima comida al hdp
+                    Comida.objects.create(participante=participante, tipo=current_hour_range)
+
+                    return render(request, 'codigos.html', {
+                        'participante': participante,
+                        'aprobado': True
+                    })
+
+                else:  # El vato fue eliminado ayer en la cena y quiere comida y cena hoy
+                    return render(request, 'codigos.html', {
+                        'participante': participante,
+                        'aprobado': False
+                    })
+
+            else:
+                return render(request, 'codigos.html', {
+                    'participante': participante,
+                    'aprobado': False
+                })
 
     else:
         return render(request, 'codigos.html')
