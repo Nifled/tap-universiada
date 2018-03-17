@@ -151,7 +151,8 @@ def codigos(request):
                 # elimination_food_range - rango cuando fue eliminado
                 # current_hour_range  - rango de ahorita mismo
 
-                if elimination_food_range == 3 and current_hour_range == 1:  # Si era cena ayer cuando lo eliminaron y hoy es desayuno
+                # Si era cena ayer cuando lo eliminaron y ahorita es desayuno
+                if elimination_food_range == 3 and current_hour_range == 1:
                     # Set ultima comida falso
                     participante.ultima_comida = False
                     participante.save()
@@ -164,13 +165,13 @@ def codigos(request):
                         'aprobado': True
                     })
 
-                else:  # El vato fue eliminado ayer en la cena y quiere comida y cena hoy
+                else:  # El vato fue eliminado ayer en la cena y quiere comida o cena hoy
                     return render(request, 'codigos.html', {
                         'participante': participante,
                         'aprobado': False
                     })
 
-            else:
+            else:  # El vato fue eliminado y quiere pedir comida otro dia (2,3,4 dias despues, etc)
                 return render(request, 'codigos.html', {
                     'participante': participante,
                     'aprobado': False
