@@ -18,7 +18,7 @@ def cual_rango_comida(datetime_obj):
     cena = [3, 4, 5]  # cena 8 a 11PM en UTC
 
     hora_actual = datetime_obj.hour
-
+    print (hora_actual)
     if hora_actual in desayuno:
         print("desayuno")
         return 1
@@ -40,7 +40,7 @@ def codigos(request):
 
     if request.POST:
         try:
-            participante = Participante.objects.get(nombres=request.POST.get("nombre", ""))
+            participante = Participante.objects.get(barcode=request.POST.get("nombre", ""))
 
         except ObjectDoesNotExist:
             return render(request, 'codigos.html', {

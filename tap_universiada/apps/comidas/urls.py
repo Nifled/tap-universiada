@@ -7,5 +7,5 @@ from .views.tablas import tablas
 urlpatterns = [
     path('', index),
     path('codigos', codigos),
-    path('tablas', tablas)
+    path('tablas', tablas),
 ]
