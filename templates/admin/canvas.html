@@ -27,7 +27,6 @@
         window.__disciplinas = {{ disciplinas|safe }}
 
         const participantes = __particpantes.map(participante => participante.fields)
-        const disciplinas = __disciplinas.map(disciplina => disciplina.fields)
 
         var canvas = document.getElementById("myCanvas")
         var ctx = canvas.getContext("2d")
@@ -44,6 +43,9 @@
         }
 
         participantes.forEach((participante, iteracion) => {
+
+          const disciplina = __disciplinas.find(x => x.pk === participante.disciplina).fields
+
             let xModifier = 0
             let yModifier = 0
 
@@ -65,7 +67,7 @@
             ctx.fillText(`${participante.nombres} ${participante.apellido_p} ${participante.apellido_m}`,
                 positions[`x1`] + xModifier, positions[`y1`] + yModifier
             )
-            ctx.fillText(disciplinas[participante.disciplina -1 ].nombre,
+            ctx.fillText(disciplina.nombre,
                 positions[`x2`] + xModifier, positions[`y2`] + yModifier
             )
             ctx.fillText(participante.institucion,
