@@ -43,7 +43,7 @@ def imprimir(modeladmin, request, queryset):
 
 
 class ParticipanteAdmin(admin.ModelAdmin):
-  list_display = ('nombres', 'apellido_p','apellido_m', 'estatus', 'institucion', 'tipo', 'disciplina', 'ultima_comida')
+  list_display = ('nombres', 'apellido_p','apellido_m', 'estatus', 'institucion', 'tipo', 'disciplina')
   search_fields = ('nombres', 'apellido_p','apellido_m', 'institucion', 'tipo', 'disciplina__nombre')
   actions = [ desactivar, activar, imprimir ]
 
