@@ -5,8 +5,8 @@ import barcode
 from barcode.writer import ImageWriter
 from imgurpython import ImgurClient
 
-client_id = 'e7ac6ee4153e3ab'
-client_secret = '2fe03c77f8b37592ec2afe128d803aeaeda2c902'
+client_id = 'acb081bb45da3bd'
+client_secret = '663520e343564e95bffca50633c421711df9de0c'
 
 Imgur = ImgurClient(client_id, client_secret)
 
