@@ -15,7 +15,7 @@ def cual_rango_comida(datetime_obj):
     """
     desayuno = [14, 15, 16]  # desayuno 7 a 10AM en UTC
     comida = [20, 21, 22]  # comida 1 a 4PM en UTC
-    cena = [3, 4, 5]  # cena 8 a 11PM en UTC
+    cena = [1, 2, 3, 4, 5]  # cena 6 a 11PM en UTC
 
     hora_actual = datetime_obj.hour
     print (hora_actual)
